@@ -12,6 +12,9 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug{
+            it.buildConfigField 'String', 'GiphyApiKey', GiphyApiKey
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -23,6 +26,12 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "com.android.support:appcompat-v7:${libraries.appcompat}"
     implementation "com.android.support.constraint:constraint-layout:${libraries.constraint}"
+
+    implementation "com.github.bumptech.glide:glide:${libraries.glide}"
+    implementation "com.google.code.gson:gson:${libraries.gson}"
+    implementation "com.squareup.retrofit2:retrofit:${libraries.retrofit}"
+    implementation "com.squareup.retrofit2:converter-gson:${libraries.retrofitConvertor}"
+
     testImplementation "junit:junit:${libraries.junit}"
     androidTestImplementation "com.android.support.test:runner:${libraries.runner}"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:${libraries.expresso}"
