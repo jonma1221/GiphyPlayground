@@ -8,5 +8,7 @@ import retrofit2.http.Query;
 public interface GiphyGetService {
 
     @GET("/v1/gifs/trending")
-    Call<ResponseBody> getTrending(@Query("api_key") String apiKey);
+    Call<ResponseBody> getTrending(
+            @Query("api_key") String apiKey,
+            @Query("limit") int size);
 }

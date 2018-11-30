@@ -39,6 +39,7 @@ ext{
             supportVersion   : "23.1.1",
             retrofit         : "2.5.0",
             retrofitConvertor: "2.5.0",
+            retrofitLogger: "3.12.0",
             gson: "2.8.5",
     ]
 }
