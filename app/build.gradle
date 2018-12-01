@@ -27,6 +27,9 @@ dependencies {
     implementation "com.android.support:appcompat-v7:${libraries.appcompat}"
     implementation "com.android.support.constraint:constraint-layout:${libraries.constraint}"
 
+    implementation "com.jakewharton:butterknife:${libraries.butterknife}"
+    annotationProcessor "com.jakewharton:butterknife-compiler:${libraries.butterknife}"
+
     implementation "com.github.bumptech.glide:glide:${libraries.glide}"
     implementation "com.google.code.gson:gson:${libraries.gson}"
     implementation "com.squareup.retrofit2:retrofit:${libraries.retrofit}"

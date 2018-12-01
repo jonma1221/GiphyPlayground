@@ -1,4 +1,7 @@
-package com.giphyplayground.network.service;
+package com.giphyplayground.network;
+
+import com.giphyplayground.network.interceptors.ApiKeyInterceptor;
+import com.giphyplayground.network.interceptors.AuthenticationInterceptor;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -11,9 +14,14 @@ public class RetrofitClientInstance {
     private static final String BASE_URL = "http://api.giphy.com/";
 
     public static Retrofit getInstance(){
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.addInterceptor(loggingInterceptor);
+        builder.addInterceptor(new ApiKeyInterceptor());
+
+        OkHttpClient client = builder.build();
+
 
         if(retrofit == null){
             retrofit = new Retrofit.Builder()

@@ -35,7 +35,7 @@ ext{
             junit:"4.12",
             runner:"1.0.2",
             expresso:"3.0.2",
-            butterknife      : "7.0.1",
+            butterknife      : "8.0.0",
             supportVersion   : "23.1.1",
             retrofit         : "2.5.0",
             retrofitConvertor: "2.5.0",
