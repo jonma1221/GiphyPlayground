@@ -10,6 +10,7 @@
         android:id="@+id/giphy_list_item_preview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="4dp"
         android:adjustViewBounds="true"
         android:background="@color/colorPrimaryDark"
         android:scaleType="centerCrop" />

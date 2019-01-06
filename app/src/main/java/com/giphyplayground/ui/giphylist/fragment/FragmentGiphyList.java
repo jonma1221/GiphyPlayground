@@ -15,6 +15,7 @@ import com.giphyplayground.model.GiphyData;
 import com.giphyplayground.model.GiphyTrendingResponse;
 import com.giphyplayground.network.RetrofitClientInstance;
 import com.giphyplayground.network.service.GiphyGetService;
+import com.giphyplayground.ui.util.EndlessScrollListener;
 
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class FragmentGiphyList extends Fragment {
     RecyclerView giphyListRecyclerView;
 
     GiphyListAdapter giphyListAdapter;
+    GiphyGetService giphyGetService;
     Call<GiphyTrendingResponse> call;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -60,14 +62,23 @@ public class FragmentGiphyList extends Fragment {
                 2,
                 StaggeredGridLayoutManager.VERTICAL);
         giphyListRecyclerView.setLayoutManager(staggeredGridLayoutManager);
-        GiphyGetService giphyGetService = RetrofitClientInstance.getInstance()
+        giphyListRecyclerView.addOnScrollListener(new EndlessScrollListener() {
+            @Override
+            public boolean onLoadMore(int offset) {
+                Log.d("offset", "" + offset);
+                loadMoreGiphy(offset);
+                return true;
+            }
+        });
+
+        giphyGetService = RetrofitClientInstance.getInstance()
                 .create(GiphyGetService.class);
-        call = giphyGetService.getTrending(15);
+        call = giphyGetService.getTrending(15, null);
         call.clone().enqueue(new Callback<GiphyTrendingResponse>() {
             @Override
             public void onResponse(Call<GiphyTrendingResponse> call, Response<GiphyTrendingResponse> response) {
                 List<GiphyData> giphyData = response.body().getList();
-
+                Log.d("pagination", "" + response.body().getPaginationObject().getOffset());
                 giphyListAdapter = new GiphyListAdapter(giphyData);
                 giphyListRecyclerView.setAdapter(giphyListAdapter);
             }
@@ -78,5 +89,21 @@ public class FragmentGiphyList extends Fragment {
             }
         });
         return v;
+    }
+
+    private void loadMoreGiphy(int offset) {
+        call = giphyGetService.getTrending(15, offset);
+        call.clone().enqueue(new Callback<GiphyTrendingResponse>() {
+            @Override
+            public void onResponse(Call<GiphyTrendingResponse> call, Response<GiphyTrendingResponse> response) {
+                List<GiphyData> giphyData = response.body().getList();
+                giphyListAdapter.add(giphyData);
+            }
+
+            @Override
+            public void onFailure(Call<GiphyTrendingResponse> call, Throwable t) {
+                Log.d("[Response]", "failed");
+            }
+        });
     }
 }

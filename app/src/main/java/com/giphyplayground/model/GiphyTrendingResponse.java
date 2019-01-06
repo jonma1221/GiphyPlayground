@@ -8,7 +8,14 @@ public class GiphyTrendingResponse {
     @SerializedName("data")
     List<GiphyData> list;
 
+    @SerializedName("pagination")
+    GiphyPaginationObject paginationObject;
+
     public List<GiphyData> getList(){
         return list;
+    }
+
+    public GiphyPaginationObject getPaginationObject() {
+        return paginationObject;
     }
 }

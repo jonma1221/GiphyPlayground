@@ -10,6 +10,7 @@ public interface GiphyGetService {
 
     @GET("/v1/gifs/trending")
     Call<GiphyTrendingResponse> getTrending(
-            @Query("limit") int size
+            @Query("limit") Integer size,
+            @Query("offset") Integer offset
     );
 }

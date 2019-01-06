@@ -10,22 +10,20 @@ import android.view.ViewGroup;
 import com.giphyplayground.R;
 import com.giphyplayground.ui.giphylist.viewholder.GiphyListViewholder;
 import com.giphyplayground.model.GiphyData;
+import com.giphyplayground.ui.util.BaseHolder;
+import com.giphyplayground.ui.util.RecyclerBaseAdapter;
 
 import java.util.List;
 
-public class GiphyListAdapter extends RecyclerView.Adapter<GiphyListViewholder> {
-    List<GiphyData> giphyData;
-
-    public GiphyListAdapter() {
-    }
+public class GiphyListAdapter extends RecyclerBaseAdapter<GiphyData> {
 
     public GiphyListAdapter(List<GiphyData> giphyData) {
-        this.giphyData = giphyData;
+        super(giphyData);
     }
 
     @NonNull
     @Override
-    public GiphyListViewholder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+    public BaseHolder<GiphyData> onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         Context context = viewGroup.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         if(viewType == R.layout.giphy_list_item){
@@ -34,15 +32,5 @@ public class GiphyListAdapter extends RecyclerView.Adapter<GiphyListViewholder> 
         View v = inflater.inflate(R.layout.giphy_list_item, null);
         GiphyListViewholder giphyListViewholder = new GiphyListViewholder(v);
         return giphyListViewholder;
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull GiphyListViewholder giphyListViewholder, int i) {
-        giphyListViewholder.bind(giphyData.get(i));
-    }
-
-    @Override
-    public int getItemCount() {
-        return giphyData.size();
     }
 }
