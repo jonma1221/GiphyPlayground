@@ -1,7 +1,7 @@
 package com.giphyplayground.ui.giphylist;
 
-import com.giphyplayground.model.GiphyData;
-import com.giphyplayground.model.data.GiphyListDataSource;
+import com.giphyplayground.data.model.GiphyData;
+import com.giphyplayground.data.source.GiphyListDataSource;
 
 import java.util.List;
 

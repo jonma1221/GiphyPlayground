@@ -29,15 +29,24 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'com.android.support:support-v4:28.0.0'
 
+    // butterknife
     implementation "com.jakewharton:butterknife:${libraries.butterknife}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${libraries.butterknife}"
 
+    //image loading
     implementation "com.github.bumptech.glide:glide:${libraries.glide}"
+    
+    //parsing
     implementation "com.google.code.gson:gson:${libraries.gson}"
+
+    //networking
     implementation "com.squareup.retrofit2:retrofit:${libraries.retrofit}"
     implementation "com.squareup.retrofit2:converter-gson:${libraries.retrofitConvertor}"
     implementation "com.squareup.okhttp3:logging-interceptor:${libraries.retrofitLogger}"
+
+    //Testing
     testImplementation "junit:junit:${libraries.junit}"
+    testImplementation "org.mockito:mockito-core:2.2.1"
     androidTestImplementation "com.android.support.test:runner:${libraries.runner}"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:${libraries.expresso}"
 }

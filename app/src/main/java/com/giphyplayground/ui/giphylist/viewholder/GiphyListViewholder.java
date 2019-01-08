@@ -1,8 +1,6 @@
 package com.giphyplayground.ui.giphylist.viewholder;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -11,7 +9,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.giphyplayground.R;
-import com.giphyplayground.model.GiphyData;
+import com.giphyplayground.data.model.GiphyData;
 import com.giphyplayground.ui.util.BaseHolder;
 
 import butterknife.BindView;

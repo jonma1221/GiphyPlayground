@@ -1,6 +1,6 @@
-package com.giphyplayground.model.data;
+package com.giphyplayground.data.source;
 
-import com.giphyplayground.model.GiphyData;
+import com.giphyplayground.data.model.GiphyData;
 import java.util.List;
 
 public interface GiphyListDataSource {

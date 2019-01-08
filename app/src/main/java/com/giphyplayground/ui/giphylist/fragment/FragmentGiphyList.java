@@ -10,14 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.giphyplayground.R;
-import com.giphyplayground.model.data.GiphyListDataSourceImpl;
+import com.giphyplayground.data.source.GiphyListDataSourceImpl;
 import com.giphyplayground.ui.giphylist.GiphyListContract;
 import com.giphyplayground.ui.giphylist.GiphyListPresenter;
 import com.giphyplayground.ui.giphylist.adapter.GiphyListAdapter;
-import com.giphyplayground.model.GiphyData;
-import com.giphyplayground.model.GiphyTrendingResponse;
-import com.giphyplayground.network.RetrofitClientInstance;
-import com.giphyplayground.network.service.GiphyGetService;
+import com.giphyplayground.data.model.GiphyData;
 import com.giphyplayground.ui.util.EndlessScrollListener;
 
 import java.util.ArrayList;
@@ -25,17 +22,12 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class FragmentGiphyList extends Fragment implements GiphyListContract.View{
     @BindView(R.id.fragment_giphy_list_rv)
     RecyclerView giphyListRecyclerView;
 
     GiphyListAdapter giphyListAdapter;
-    GiphyGetService giphyGetService;
-    Call<GiphyTrendingResponse> call;
 
     GiphyListContract.Presenter mPresenter;
 
@@ -61,9 +53,9 @@ public class FragmentGiphyList extends Fragment implements GiphyListContract.Vie
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_giphy_list, container, false);
         ButterKnife.bind(this, v);
+
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(
                 2,
                 StaggeredGridLayoutManager.VERTICAL);
@@ -76,11 +68,10 @@ public class FragmentGiphyList extends Fragment implements GiphyListContract.Vie
                 return true;
             }
         });
-        mPresenter = new GiphyListPresenter(new GiphyListDataSourceImpl(), this);
         giphyListAdapter = new GiphyListAdapter(new ArrayList<GiphyData>(0));
         giphyListRecyclerView.setAdapter(giphyListAdapter);
-        giphyGetService = RetrofitClientInstance.getInstance()
-                .create(GiphyGetService.class);
+
+        mPresenter = new GiphyListPresenter(GiphyListDataSourceImpl.getInstance(), this);
         mPresenter.getTrendingGiphy(0);
         return v;
     }

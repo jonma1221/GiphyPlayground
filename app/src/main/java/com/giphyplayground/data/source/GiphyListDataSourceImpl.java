@@ -1,12 +1,11 @@
-package com.giphyplayground.model.data;
+package com.giphyplayground.data.source;
 
 import android.util.Log;
 
-import com.giphyplayground.model.GiphyData;
-import com.giphyplayground.model.GiphyTrendingResponse;
+import com.giphyplayground.data.model.GiphyData;
+import com.giphyplayground.data.model.GiphyTrendingResponse;
 import com.giphyplayground.network.RetrofitClientInstance;
 import com.giphyplayground.network.service.GiphyGetService;
-import com.giphyplayground.ui.giphylist.adapter.GiphyListAdapter;
 
 import java.util.List;
 
@@ -15,9 +14,18 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class GiphyListDataSourceImpl implements GiphyListDataSource{
+    private static GiphyListDataSourceImpl instance;
 
-    Call<GiphyTrendingResponse> call;
-    GiphyGetService giphyGetService;
+    private Call<GiphyTrendingResponse> call;
+    private GiphyGetService giphyGetService;
+
+    public static GiphyListDataSourceImpl getInstance() {
+        if(instance == null){
+            instance = new GiphyListDataSourceImpl();
+        }
+        return instance;
+    }
+
     @Override
     public void getGiphyList(int offset, final GiphyListCallback callback) {
         giphyGetService = RetrofitClientInstance.getInstance()
@@ -27,13 +35,6 @@ public class GiphyListDataSourceImpl implements GiphyListDataSource{
             @Override
             public void onResponse(Call<GiphyTrendingResponse> call, Response<GiphyTrendingResponse> response) {
                 List<GiphyData> giphyData = response.body().getList();
-//                if(offset == 0){
-//                    Log.d("pagination", "" + response.body().getPaginationObject().getOffset());
-//                    giphyListAdapter = new GiphyListAdapter(giphyData);
-//                    giphyListRecyclerView.setAdapter(giphyListAdapter);
-//                } else {
-//                    giphyListAdapter.add(giphyData);
-//                }
                 callback.onGiphyLoaded(giphyData);
             }
 

@@ -1,4 +1,4 @@
-package com.giphyplayground.model;
+package com.giphyplayground.data.model;
 
 import com.google.gson.annotations.SerializedName;
 

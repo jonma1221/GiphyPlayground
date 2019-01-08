@@ -4,7 +4,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.giphyplayground.model.GiphyTrendingResponse;
+import com.giphyplayground.data.model.GiphyTrendingResponse;
 import com.giphyplayground.ui.giphylist.fragment.FragmentGiphyList;
 
 import butterknife.ButterKnife;

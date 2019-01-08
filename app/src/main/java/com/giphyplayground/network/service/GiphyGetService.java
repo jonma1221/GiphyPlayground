@@ -1,6 +1,6 @@
 package com.giphyplayground.network.service;
 
-import com.giphyplayground.model.GiphyTrendingResponse;
+import com.giphyplayground.data.model.GiphyTrendingResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
