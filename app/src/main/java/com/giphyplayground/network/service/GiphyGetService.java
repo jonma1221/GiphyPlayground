@@ -1,5 +1,6 @@
 package com.giphyplayground.network.service;
 
+import com.giphyplayground.data.model.GiphyByIdResponse;
 import com.giphyplayground.data.model.GiphyData;
 import com.giphyplayground.data.model.GiphyTrendingResponse;
 
@@ -17,5 +18,5 @@ public interface GiphyGetService {
     );
 
     @GET("/v1/gifs/{gif_id}")
-    Call<GiphyData> getGiphyById(@Path("gif_id") String gifId);
+    Call<GiphyByIdResponse> getGiphyById(@Path("gif_id") String gifId);
 }

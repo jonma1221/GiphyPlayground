@@ -1,6 +1,37 @@
 package com.giphyplayground.ui.giphydetail;
 
-import com.giphyplayground.ui.BasePresenter;
+import com.giphyplayground.data.model.GiphyData;
+import com.giphyplayground.data.source.GiphyDataSource;
 
-public class GiphyDetailPresenter {
+public class GiphyDetailPresenter implements GiphyDetailContract.Presenter, GiphyDataSource.GetGiphyCallback {
+
+    private GiphyDetailContract.View mGiphyDetailView;
+    private GiphyDataSource giphyDataSource;
+
+    public GiphyDetailPresenter(GiphyDataSource giphyDataSource, GiphyDetailContract.View mView) {
+        this.mGiphyDetailView = mView;
+        this.giphyDataSource = giphyDataSource;
+    }
+
+    @Override
+    public void destroyView() {
+        mGiphyDetailView = null;
+    }
+
+    @Override
+    public void getGiphyById(String id) {
+        giphyDataSource.getGiphy(id,this);
+    }
+
+    @Override
+    public void onGiphyLoaded(GiphyData giphyData) {
+        if(mGiphyDetailView != null){
+            mGiphyDetailView.onGiphyLoaded(giphyData);
+        }
+    }
+
+    @Override
+    public void onDataNotAvailable() {
+
+    }
 }

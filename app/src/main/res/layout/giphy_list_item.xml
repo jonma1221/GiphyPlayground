@@ -12,6 +12,5 @@
         android:layout_height="wrap_content"
         android:padding="4dp"
         android:adjustViewBounds="true"
-        android:background="@color/colorPrimaryDark"
         android:scaleType="centerCrop" />
 </android.support.constraint.ConstraintLayout>

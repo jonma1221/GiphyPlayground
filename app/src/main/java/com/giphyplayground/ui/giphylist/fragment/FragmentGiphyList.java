@@ -2,6 +2,7 @@ package com.giphyplayground.ui.giphylist.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -11,14 +12,14 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.giphyplayground.R;
-import com.giphyplayground.data.source.GiphyListDataSourceImpl;
+import com.giphyplayground.data.source.GiphyDataSourceImpl;
+import com.giphyplayground.ui.giphydetail.FragmentGiphyDetail;
 import com.giphyplayground.ui.giphylist.GiphyListContract;
 import com.giphyplayground.ui.giphylist.GiphyListPresenter;
 import com.giphyplayground.ui.giphylist.OnGiphyClickListener;
 import com.giphyplayground.ui.giphylist.adapter.GiphyListAdapter;
 import com.giphyplayground.data.model.GiphyData;
 import com.giphyplayground.ui.util.EndlessScrollListener;
-import com.giphyplayground.ui.util.RecyclerBaseAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +68,7 @@ public class FragmentGiphyList extends Fragment implements GiphyListContract.Vie
             @Override
             public boolean onLoadMore(int offset) {
                 Log.d("offset", "" + offset);
-                mPresenter.getTrendingGiphy(offset);
+                mPresenter.getTrendingGiphyList(offset);
                 return true;
             }
         });
@@ -75,13 +76,17 @@ public class FragmentGiphyList extends Fragment implements GiphyListContract.Vie
         giphyListAdapter.setOnClickListener(new OnGiphyClickListener() {
             @Override
             public void onGiphyClicked(GiphyData giphyData) {
-                Toast.makeText(getContext(), giphyData.toString(), Toast.LENGTH_SHORT).show();
+                FragmentManager fm = getFragmentManager();
+                fm.beginTransaction().add(R.id.fragment_container,
+                        FragmentGiphyDetail.newInstance(giphyData.getId()))
+                        .addToBackStack(null)
+                .commit();
             }
         });
         giphyListRecyclerView.setAdapter(giphyListAdapter);
 
-        mPresenter = new GiphyListPresenter(GiphyListDataSourceImpl.getInstance(), this);
-        mPresenter.getTrendingGiphy(0);
+        mPresenter = new GiphyListPresenter(GiphyDataSourceImpl.getInstance(), this);
+        mPresenter.getTrendingGiphyList(0);
         return v;
     }
 

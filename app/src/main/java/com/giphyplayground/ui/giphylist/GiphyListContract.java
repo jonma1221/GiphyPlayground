@@ -11,6 +11,6 @@ public interface GiphyListContract {
     }
 
     interface Presenter extends BasePresenter {
-        void getTrendingGiphy(int offset);
+        void getTrendingGiphyList(int offset);
     }
 }

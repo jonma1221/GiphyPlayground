@@ -1,8 +1,8 @@
 package com.giphyplayground.ui.giphylist;
 
 import com.giphyplayground.data.model.GiphyData;
-import com.giphyplayground.data.source.GiphyListDataSource;
-import com.giphyplayground.data.source.GiphyListDataSourceImpl;
+import com.giphyplayground.data.source.GiphyDataSource;
+import com.giphyplayground.data.source.GiphyDataSourceImpl;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,17 +15,16 @@ import org.mockito.MockitoAnnotations;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 public class GiphyListPresenterTest {
 
     @Mock
-    GiphyListDataSourceImpl giphyListDataSource;
+    GiphyDataSourceImpl giphyListDataSource;
     @Mock
     GiphyListContract.View mGiphyListView;
 
     @Captor
-    private ArgumentCaptor<GiphyListDataSource.GiphyListCallback> mTrendingCallbackCaptor;
+    private ArgumentCaptor<GiphyDataSource.GetGiphyListCallback> mTrendingCallbackCaptor;
 
     GiphyListPresenter giphyListPresenter;
     @Before
@@ -44,7 +43,7 @@ public class GiphyListPresenterTest {
      */
     @Test
     public void fetchTrendingAndLoadIntoViewSuccess() {
-        giphyListPresenter.getTrendingGiphy(0);
+        giphyListPresenter.getTrendingGiphyList(0);
         // Callback is captured and invoked with stubbed tasks
         verify(giphyListDataSource).getGiphyList(Mockito.anyInt(), mTrendingCallbackCaptor.capture());
         // trigger the reply on callbackCaptor.getValue().
@@ -67,7 +66,7 @@ public class GiphyListPresenterTest {
 
     @Test
     public void fetchTrendingAndLoadIntoViewFail() {
-        giphyListPresenter.getTrendingGiphy(0);
+        giphyListPresenter.getTrendingGiphyList(0);
         // Callback is captured and invoked with stubbed tasks
         verify(giphyListDataSource).getGiphyList(Mockito.anyInt(), mTrendingCallbackCaptor.capture());
         // trigger the reply on callbackCaptor.getValue().

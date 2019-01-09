@@ -1,5 +1,14 @@
 package com.giphyplayground.ui.giphydetail;
 
-public interface GiphyDetailContract {
+import com.giphyplayground.data.model.GiphyData;
+import com.giphyplayground.ui.BasePresenter;
 
+public interface GiphyDetailContract {
+    interface View{
+        void onGiphyLoaded(GiphyData giphyData);
+    }
+
+    interface Presenter extends BasePresenter{
+        void getGiphyById(String id);
+    }
 }

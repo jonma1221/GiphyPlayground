@@ -1,17 +1,17 @@
 package com.giphyplayground.ui.giphylist;
 
 import com.giphyplayground.data.model.GiphyData;
-import com.giphyplayground.data.source.GiphyListDataSource;
+import com.giphyplayground.data.source.GiphyDataSource;
 
 import java.util.List;
 
 public class GiphyListPresenter implements GiphyListContract.Presenter {
     private GiphyListContract.View mGiphyListView;
-    private GiphyListDataSource giphyListDataSource;
+    private GiphyDataSource giphyDataSource;
 
-    public GiphyListPresenter(GiphyListDataSource giphyListDataSource,
+    public GiphyListPresenter(GiphyDataSource giphyDataSource,
                               GiphyListContract.View mGiphyListView) {
-        this.giphyListDataSource = giphyListDataSource;
+        this.giphyDataSource = giphyDataSource;
         this.mGiphyListView = mGiphyListView;
     }
 
@@ -21,11 +21,11 @@ public class GiphyListPresenter implements GiphyListContract.Presenter {
     }
 
     @Override
-    public void getTrendingGiphy(int offset){
-        giphyListDataSource.getGiphyList(offset, new GiphyListDataSource.GiphyListCallback() {
+    public void getTrendingGiphyList(int offset){
+        giphyDataSource.getGiphyList(offset, new GiphyDataSource.GetGiphyListCallback() {
             @Override
-            public void onGiphyLoaded(List<GiphyData> tasks) {
-                mGiphyListView.onTrendingLoaded(tasks);
+            public void onGiphyLoaded(List<GiphyData> giphyDataList) {
+                mGiphyListView.onTrendingLoaded(giphyDataList);
             }
 
             @Override

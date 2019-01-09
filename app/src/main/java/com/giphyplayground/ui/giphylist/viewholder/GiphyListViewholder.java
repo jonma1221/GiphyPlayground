@@ -12,7 +12,6 @@ import com.giphyplayground.R;
 import com.giphyplayground.data.model.GiphyData;
 import com.giphyplayground.ui.giphylist.OnGiphyClickListener;
 import com.giphyplayground.ui.util.BaseHolder;
-import com.giphyplayground.ui.util.RecyclerBaseAdapter;
 
 import butterknife.BindView;
 
@@ -34,7 +33,7 @@ public class GiphyListViewholder extends BaseHolder<GiphyData, OnGiphyClickListe
                 .load(giphyData.getGiphyImages().getDownsized().getUrl())
                 .apply(new RequestOptions().centerCrop().transform(new RoundedCorners(16))
                         .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                        .placeholder(R.color.colorPrimary))
+                        .placeholder(R.color.grey_200))
                 .into(giphyPreview);
     }
 

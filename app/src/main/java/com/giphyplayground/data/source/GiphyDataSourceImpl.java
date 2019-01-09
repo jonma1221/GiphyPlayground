@@ -2,6 +2,7 @@ package com.giphyplayground.data.source;
 
 import android.util.Log;
 
+import com.giphyplayground.data.model.GiphyByIdResponse;
 import com.giphyplayground.data.model.GiphyData;
 import com.giphyplayground.data.model.GiphyTrendingResponse;
 import com.giphyplayground.network.RetrofitClientInstance;
@@ -13,21 +14,40 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class GiphyListDataSourceImpl implements GiphyListDataSource{
-    private static GiphyListDataSourceImpl instance;
+public class GiphyDataSourceImpl implements GiphyDataSource {
+    private static GiphyDataSourceImpl instance;
 
     private Call<GiphyTrendingResponse> call;
     private GiphyGetService giphyGetService;
 
-    public static GiphyListDataSourceImpl getInstance() {
+    public static GiphyDataSourceImpl getInstance() {
         if(instance == null){
-            instance = new GiphyListDataSourceImpl();
+            instance = new GiphyDataSourceImpl();
         }
         return instance;
     }
 
     @Override
-    public void getGiphyList(int offset, final GiphyListCallback callback) {
+    public void getGiphy(String id, final GetGiphyCallback callback) {
+        giphyGetService = RetrofitClientInstance.getInstance()
+                .create(GiphyGetService.class);
+        Call<GiphyByIdResponse> call = giphyGetService.getGiphyById(id);
+        call.clone().enqueue(new Callback<GiphyByIdResponse>() {
+            @Override
+            public void onResponse(Call<GiphyByIdResponse> call, Response<GiphyByIdResponse> response) {
+                GiphyData giphyData = response.body().getGiphyData();
+                callback.onGiphyLoaded(giphyData);
+            }
+
+            @Override
+            public void onFailure(Call<GiphyByIdResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
+    public void getGiphyList(int offset, final GetGiphyListCallback callback) {
         giphyGetService = RetrofitClientInstance.getInstance()
                 .create(GiphyGetService.class);
         call = giphyGetService.getTrending(15, offset);
