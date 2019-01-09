@@ -16,6 +16,11 @@ public class GiphyListPresenter implements GiphyListContract.Presenter {
     }
 
     @Override
+    public void destroyView() {
+        mGiphyListView = null;
+    }
+
+    @Override
     public void getTrendingGiphy(int offset){
         giphyListDataSource.getGiphyList(offset, new GiphyListDataSource.GiphyListCallback() {
             @Override

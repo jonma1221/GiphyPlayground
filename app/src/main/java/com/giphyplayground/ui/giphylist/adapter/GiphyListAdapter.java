@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.giphyplayground.R;
+import com.giphyplayground.ui.giphylist.OnGiphyClickListener;
 import com.giphyplayground.ui.giphylist.viewholder.GiphyListViewholder;
 import com.giphyplayground.data.model.GiphyData;
 import com.giphyplayground.ui.util.BaseHolder;
@@ -14,7 +15,7 @@ import com.giphyplayground.ui.util.RecyclerBaseAdapter;
 
 import java.util.List;
 
-public class GiphyListAdapter extends RecyclerBaseAdapter<GiphyData> {
+public class GiphyListAdapter extends RecyclerBaseAdapter<GiphyData, OnGiphyClickListener> {
 
     public GiphyListAdapter(List<GiphyData> giphyData) {
         super(giphyData);
@@ -22,7 +23,7 @@ public class GiphyListAdapter extends RecyclerBaseAdapter<GiphyData> {
 
     @NonNull
     @Override
-    public BaseHolder<GiphyData> onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+    public BaseHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         Context context = viewGroup.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         if(viewType == R.layout.giphy_list_item){

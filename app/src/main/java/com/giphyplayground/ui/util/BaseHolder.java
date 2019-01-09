@@ -7,8 +7,10 @@ import android.view.View;
 
 import butterknife.ButterKnife;
 
-public abstract class BaseHolder<T> extends RecyclerView.ViewHolder {
+public abstract class BaseHolder<T, L extends RecyclerBaseAdapter.BaseRecyclerListener> extends RecyclerView.ViewHolder {
     protected Context mContext;
+    protected L clickListener;
+
     public BaseHolder(@NonNull View itemView) {
         super(itemView);
         mContext = itemView.getContext();
@@ -16,4 +18,8 @@ public abstract class BaseHolder<T> extends RecyclerView.ViewHolder {
     }
 
     public abstract void bind(T item);
+
+    public void setOnClickListener(L clickListener){
+        this.clickListener = clickListener;
+    }
 }

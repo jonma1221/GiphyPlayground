@@ -8,14 +8,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.giphyplayground.R;
 import com.giphyplayground.data.source.GiphyListDataSourceImpl;
 import com.giphyplayground.ui.giphylist.GiphyListContract;
 import com.giphyplayground.ui.giphylist.GiphyListPresenter;
+import com.giphyplayground.ui.giphylist.OnGiphyClickListener;
 import com.giphyplayground.ui.giphylist.adapter.GiphyListAdapter;
 import com.giphyplayground.data.model.GiphyData;
 import com.giphyplayground.ui.util.EndlessScrollListener;
+import com.giphyplayground.ui.util.RecyclerBaseAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +72,12 @@ public class FragmentGiphyList extends Fragment implements GiphyListContract.Vie
             }
         });
         giphyListAdapter = new GiphyListAdapter(new ArrayList<GiphyData>(0));
+        giphyListAdapter.setOnClickListener(new OnGiphyClickListener() {
+            @Override
+            public void onGiphyClicked(GiphyData giphyData) {
+                Toast.makeText(getContext(), giphyData.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
         giphyListRecyclerView.setAdapter(giphyListAdapter);
 
         mPresenter = new GiphyListPresenter(GiphyListDataSourceImpl.getInstance(), this);

@@ -1,5 +1,6 @@
 package com.giphyplayground.data.model;
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -204,4 +205,10 @@ public class GiphyData {
         this.title = title;
     }
 
+    @Override
+    public String toString() {
+        Gson gson = new Gson();
+        String json = gson.toJson(this);
+        return json;
+    }
 }
