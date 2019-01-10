@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,6 +29,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class FragmentGiphyList extends Fragment implements GiphyListContract.View{
+    @BindView(R.id.fragment_giphy_list_searchView)
+    SearchView searchView;
     @BindView(R.id.fragment_giphy_list_rv)
     RecyclerView giphyListRecyclerView;
 
@@ -61,13 +64,13 @@ public class FragmentGiphyList extends Fragment implements GiphyListContract.Vie
         ButterKnife.bind(this, v);
 
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(
-                2,
-                StaggeredGridLayoutManager.VERTICAL);
+                2, StaggeredGridLayoutManager.VERTICAL);
         giphyListRecyclerView.setLayoutManager(staggeredGridLayoutManager);
         giphyListRecyclerView.addOnScrollListener(new EndlessScrollListener() {
             @Override
             public boolean onLoadMore(int offset) {
                 Log.d("offset", "" + offset);
+                // todo - this needs to work with search query
                 mPresenter.getTrendingGiphyList(offset);
                 return true;
             }
@@ -87,11 +90,30 @@ public class FragmentGiphyList extends Fragment implements GiphyListContract.Vie
 
         mPresenter = new GiphyListPresenter(GiphyDataSourceImpl.getInstance(), this);
         mPresenter.getTrendingGiphyList(0);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
+                mPresenter.searchGiphy(s, 0);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
         return v;
     }
 
     @Override
     public void onTrendingLoaded(List<GiphyData> list) {
         giphyListAdapter.add(list);
+    }
+
+    @Override
+    public void onSearchResult(List<GiphyData> searchResult) {
+        giphyListAdapter.replace(searchResult);
     }
 }

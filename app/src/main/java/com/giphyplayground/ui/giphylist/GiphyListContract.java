@@ -8,9 +8,11 @@ import java.util.List;
 public interface GiphyListContract {
     interface View{
         void onTrendingLoaded(List<GiphyData> list);
+        void onSearchResult(List<GiphyData> searchResult);
     }
 
     interface Presenter extends BasePresenter {
         void getTrendingGiphyList(int offset);
+        void searchGiphy(String query, int offset);
     }
 }

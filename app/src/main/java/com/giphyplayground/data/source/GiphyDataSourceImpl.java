@@ -64,4 +64,23 @@ public class GiphyDataSourceImpl implements GiphyDataSource {
             }
         });
     }
+
+    @Override
+    public void searchGiphy(String query, int offset, final GetGiphyListCallback callback) {
+        giphyGetService = RetrofitClientInstance.getInstance()
+                .create(GiphyGetService.class);
+        call = giphyGetService.searchGiphy(query, offset);
+        call.clone().enqueue(new Callback<GiphyTrendingResponse>() {
+            @Override
+            public void onResponse(Call<GiphyTrendingResponse> call, Response<GiphyTrendingResponse> response) {
+                List<GiphyData> giphyData = response.body().getList();
+                callback.onGiphyLoaded(giphyData);
+            }
+
+            @Override
+            public void onFailure(Call<GiphyTrendingResponse> call, Throwable t) {
+                Log.d("[Response]", "failed");
+            }
+        });
+    }
 }

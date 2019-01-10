@@ -16,4 +16,5 @@ public interface GiphyDataSource {
 
     void getGiphy(String id, GetGiphyCallback callback);
     void getGiphyList(int offset, GetGiphyListCallback callback);
+    void searchGiphy(String query, int offset, GetGiphyListCallback callback);
 }

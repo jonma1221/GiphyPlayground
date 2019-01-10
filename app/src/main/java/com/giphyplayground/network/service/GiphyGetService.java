@@ -19,4 +19,11 @@ public interface GiphyGetService {
 
     @GET("/v1/gifs/{gif_id}")
     Call<GiphyByIdResponse> getGiphyById(@Path("gif_id") String gifId);
+
+
+    @GET("/v1/gifs/search")
+    Call<GiphyTrendingResponse> searchGiphy(
+            @Query("q") String searchQuery,
+            @Query("offset") Integer offset
+    );
 }

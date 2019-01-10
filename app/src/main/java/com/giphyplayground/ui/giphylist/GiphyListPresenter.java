@@ -34,4 +34,19 @@ public class GiphyListPresenter implements GiphyListContract.Presenter {
             }
         });
     }
+
+    @Override
+    public void searchGiphy(String query, int offset) {
+        giphyDataSource.searchGiphy(query, offset, new GiphyDataSource.GetGiphyListCallback() {
+            @Override
+            public void onGiphyLoaded(List<GiphyData> giphyDataList) {
+                mGiphyListView.onSearchResult(giphyDataList);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+
+            }
+        });
+    }
 }
