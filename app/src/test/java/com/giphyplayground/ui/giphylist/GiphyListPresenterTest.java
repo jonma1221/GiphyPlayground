@@ -18,15 +18,14 @@ import static org.mockito.Mockito.verify;
 
 public class GiphyListPresenterTest {
 
+    private GiphyListPresenter giphyListPresenter;
     @Mock
-    GiphyDataSourceImpl giphyListDataSource;
+    private GiphyDataSourceImpl giphyListDataSource;
     @Mock
-    GiphyListContract.View mGiphyListView;
-
+    private GiphyListContract.View mGiphyListView;
     @Captor
     private ArgumentCaptor<GiphyDataSource.GetGiphyListCallback> mTrendingCallbackCaptor;
 
-    GiphyListPresenter giphyListPresenter;
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
