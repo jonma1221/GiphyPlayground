@@ -5,7 +5,7 @@ import com.giphyplayground.ui.BasePresenter;
 
 public interface GiphyDetailContract {
     interface View{
-        void onGiphyLoaded(GiphyData giphyData);
+        void onGiphyRetrieved(GiphyData giphyData);
     }
 
     interface Presenter extends BasePresenter{

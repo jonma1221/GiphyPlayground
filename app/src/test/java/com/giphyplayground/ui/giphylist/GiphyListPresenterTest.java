@@ -1,8 +1,8 @@
 package com.giphyplayground.ui.giphylist;
 
 import com.giphyplayground.data.model.GiphyData;
-import com.giphyplayground.data.source.GiphyDataSource;
-import com.giphyplayground.data.source.GiphyDataSourceImpl;
+import com.giphyplayground.data.source.remote.GiphyDataSource;
+import com.giphyplayground.data.source.remote.GiphyDataSourceImpl;
 
 import org.junit.Before;
 import org.junit.Test;

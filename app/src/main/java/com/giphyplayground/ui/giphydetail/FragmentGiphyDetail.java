@@ -11,10 +11,9 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.Target;
 import com.giphyplayground.R;
 import com.giphyplayground.data.model.GiphyData;
-import com.giphyplayground.data.source.GiphyDataSourceImpl;
+import com.giphyplayground.data.source.remote.GiphyDataSourceImpl;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,7 +46,7 @@ public class FragmentGiphyDetail extends Fragment implements GiphyDetailContract
     }
 
     @Override
-    public void onGiphyLoaded(GiphyData giphyData) {
+    public void onGiphyRetrieved(GiphyData giphyData) {
         Glide.with(getContext())
                 .load(giphyData.getGiphyImages().getDownsized().getUrl())
                 .apply(new RequestOptions().placeholder(R.color.grey_200))

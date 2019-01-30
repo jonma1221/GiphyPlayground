@@ -1,4 +1,4 @@
-package com.giphyplayground.ui.giphylist.fragment;
+package com.giphyplayground.ui.giphylist;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,14 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.giphyplayground.R;
-import com.giphyplayground.data.source.GiphyDataSourceImpl;
+import com.giphyplayground.data.source.remote.GiphyDataSourceImpl;
 import com.giphyplayground.ui.giphydetail.FragmentGiphyDetail;
-import com.giphyplayground.ui.giphylist.GiphyListContract;
-import com.giphyplayground.ui.giphylist.GiphyListPresenter;
-import com.giphyplayground.ui.giphylist.OnGiphyClickListener;
 import com.giphyplayground.ui.giphylist.adapter.GiphyListAdapter;
 import com.giphyplayground.data.model.GiphyData;
 import com.giphyplayground.ui.util.EndlessScrollListener;
@@ -38,21 +34,12 @@ public class FragmentGiphyList extends Fragment implements GiphyListContract.Vie
 
     GiphyListContract.Presenter mPresenter;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    String currentSearchQuery = "";
+    boolean searchTrending = true, shouldReplace = true;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    // TODO: Rename and change types and number of parameters
-    public static FragmentGiphyList newInstance(String param1, String param2) {
+    public static FragmentGiphyList newInstance() {
         FragmentGiphyList fragment = new FragmentGiphyList();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,15 +53,19 @@ public class FragmentGiphyList extends Fragment implements GiphyListContract.Vie
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(
                 2, StaggeredGridLayoutManager.VERTICAL);
         giphyListRecyclerView.setLayoutManager(staggeredGridLayoutManager);
-        giphyListRecyclerView.addOnScrollListener(new EndlessScrollListener() {
+        final EndlessScrollListener endlessScrollListener = new EndlessScrollListener() {
             @Override
             public boolean onLoadMore(int offset) {
                 Log.d("offset", "" + offset);
                 // todo - this needs to work with search query
-                mPresenter.getTrendingGiphyList(offset);
+//                if (searchTrending)
+//                    mPresenter.getTrendingGiphyList(offset);
+//                else
+//                    mPresenter.searchGiphy(currentSearchQuery, offset);
                 return true;
             }
-        });
+        };
+        giphyListRecyclerView.addOnScrollListener(endlessScrollListener);
         giphyListAdapter = new GiphyListAdapter(new ArrayList<GiphyData>(0));
         giphyListAdapter.setOnClickListener(new OnGiphyClickListener() {
             @Override
@@ -94,13 +85,23 @@ public class FragmentGiphyList extends Fragment implements GiphyListContract.Vie
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
-                mPresenter.searchGiphy(s, 0);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
+                currentSearchQuery = s;
+                endlessScrollListener.reset();
+                if(s.isEmpty()) {
+                    shouldReplace = true;
+                    searchTrending = true;
+                    mPresenter.getTrendingGiphyList(0);
+                }
+                else {
+                    shouldReplace = true;
+                    searchTrending = false;
+                    mPresenter.searchGiphy(s, 0);
+                }
                 return false;
             }
         });
@@ -109,11 +110,25 @@ public class FragmentGiphyList extends Fragment implements GiphyListContract.Vie
 
     @Override
     public void onTrendingLoaded(List<GiphyData> list) {
-        giphyListAdapter.add(list);
+        if (shouldReplace) {
+            giphyListAdapter.replace(list);
+            shouldReplace = false;
+        } else {
+            giphyListAdapter.add(list);
+        }
     }
 
     @Override
     public void onSearchResult(List<GiphyData> searchResult) {
-        giphyListAdapter.replace(searchResult);
+        if(shouldReplace){
+            giphyListAdapter.replace(searchResult);
+            shouldReplace = false;
+        }
+        else giphyListAdapter.add(searchResult);
+    }
+
+    @Override
+    public void onError() {
+
     }
 }

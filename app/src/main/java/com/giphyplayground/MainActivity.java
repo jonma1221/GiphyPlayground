@@ -1,28 +1,29 @@
 package com.giphyplayground;
 
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 
-import com.giphyplayground.data.model.GiphyTrendingResponse;
-import com.giphyplayground.ui.giphylist.fragment.FragmentGiphyList;
+import com.giphyplayground.ui.giphylist.FragmentGiphyList;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Call;
 
-public class MainActivity extends AppCompatActivity {
-    Call<GiphyTrendingResponse> call;
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
+    @BindView(R.id.bottom_navigation)
+    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-//        GiphyGetService giphyGetService = RetrofitClientInstance.getInstance()
-//                .create(GiphyGetService.class);
-//        call = giphyGetService.getTrending(1);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
-        FragmentGiphyList fragmentGiphyList = FragmentGiphyList.newInstance(null, null);
+        FragmentGiphyList fragmentGiphyList = FragmentGiphyList.newInstance();
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction()
                 .add(R.id.fragment_container, fragmentGiphyList)
@@ -31,22 +32,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-
-//        call.clone().enqueue(new Callback<GiphyTrendingResponse>() {
-//            @Override
-//            public void onResponse(Call<GiphyTrendingResponse> call, Response<GiphyTrendingResponse> response) {
-//                List<GiphyData> giphyData = response.body().getList();
-//                Glide.with(MainActivity.this)
-//                        .load(giphyData.get(0).getGiphyImages().getDownsized().getUrl())
-//                        .into(iv);
-//            }
-//
-//            @Override
-//            public void onFailure(Call<GiphyTrendingResponse> call, Throwable t) {
-//                Log.d("[Response]", "failed");
-//            }
-//        });
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        return false;
     }
 }

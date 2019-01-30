@@ -9,6 +9,7 @@ public interface GiphyListContract {
     interface View{
         void onTrendingLoaded(List<GiphyData> list);
         void onSearchResult(List<GiphyData> searchResult);
+        void onError();
     }
 
     interface Presenter extends BasePresenter {

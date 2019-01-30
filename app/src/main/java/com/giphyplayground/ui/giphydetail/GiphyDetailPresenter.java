@@ -1,9 +1,9 @@
 package com.giphyplayground.ui.giphydetail;
 
 import com.giphyplayground.data.model.GiphyData;
-import com.giphyplayground.data.source.GiphyDataSource;
+import com.giphyplayground.data.source.remote.GiphyDataSource;
 
-public class GiphyDetailPresenter implements GiphyDetailContract.Presenter, GiphyDataSource.GetGiphyCallback {
+public class GiphyDetailPresenter implements GiphyDetailContract.Presenter, GiphyDataSource.GetGiphyCallback<GiphyData> {
 
     private GiphyDetailContract.View mGiphyDetailView;
     private GiphyDataSource giphyDataSource;
@@ -26,7 +26,7 @@ public class GiphyDetailPresenter implements GiphyDetailContract.Presenter, Giph
     @Override
     public void onGiphyLoaded(GiphyData giphyData) {
         if(mGiphyDetailView != null){
-            mGiphyDetailView.onGiphyLoaded(giphyData);
+            mGiphyDetailView.onGiphyRetrieved(giphyData);
         }
     }
 
