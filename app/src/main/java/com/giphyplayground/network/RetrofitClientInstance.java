@@ -5,6 +5,9 @@ import android.content.Context;
 
 import com.giphyplayground.network.interceptors.ApiKeyInterceptor;
 import com.giphyplayground.network.interceptors.AuthenticationInterceptor;
+import com.giphyplayground.network.interceptors.OfflineInterceptor;
+import com.giphyplayground.network.interceptors.OnlineInterceptor;
+import com.giphyplayground.ui.util.App;
 
 import java.util.concurrent.TimeUnit;
 
@@ -39,9 +42,11 @@ public class RetrofitClientInstance {
         builder.connectTimeout(10, TimeUnit.SECONDS);
         builder.writeTimeout(10, TimeUnit.SECONDS);
         builder.readTimeout(10, TimeUnit.SECONDS);
-//        builder.cache(new Cache(context.getCacheDir(), cacheSize));
+        builder.cache(new Cache(App.getContext().getCacheDir(), cacheSize));
         builder.addInterceptor(createHttpLoggingInterceptor());
         builder.addInterceptor(new ApiKeyInterceptor());
+        builder.addInterceptor(new OfflineInterceptor());
+        builder.addNetworkInterceptor(new OnlineInterceptor());
         return builder.build();
     }
 

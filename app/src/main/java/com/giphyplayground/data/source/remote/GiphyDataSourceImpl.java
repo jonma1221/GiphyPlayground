@@ -1,6 +1,7 @@
 package com.giphyplayground.data.source.remote;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.giphyplayground.data.model.GiphyByIdResponse;
 import com.giphyplayground.data.model.GiphyData;
@@ -56,6 +57,13 @@ public class GiphyDataSourceImpl implements GiphyDataSource {
         call.clone().enqueue(new Callback<GiphyTrendingResponse>() {
             @Override
             public void onResponse(@NonNull Call<GiphyTrendingResponse> call, @NonNull Response<GiphyTrendingResponse> response) {
+                if (response.raw().cacheResponse() != null) {
+                    Log.v("[GiphyDataSource]", "Response from cache");
+                }
+
+                if (response.raw().networkResponse() != null) {
+                    Log.v("[GiphyDataSource]", "Response from network" );
+                }
                 if(response.isSuccessful()){
                     List<GiphyData> giphyData = response.body().getList();
                     response.body().getPaginationObject().getOffset();
@@ -79,6 +87,13 @@ public class GiphyDataSourceImpl implements GiphyDataSource {
         call.clone().enqueue(new Callback<GiphyTrendingResponse>() {
             @Override
             public void onResponse(Call<GiphyTrendingResponse> call, Response<GiphyTrendingResponse> response) {
+                if (response.raw().cacheResponse() != null) {
+                    Log.v("[GiphyDataSource]", "Response from cache");
+                }
+
+                if (response.raw().networkResponse() != null) {
+                    Log.v("[GiphyDataSource]", "Response from network" );
+                }
                 if(response.isSuccessful()){
                     List<GiphyData> giphyData = response.body().getList();
                     callback.onGiphyLoaded(giphyData);
