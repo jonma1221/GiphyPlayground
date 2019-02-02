@@ -63,6 +63,7 @@ public class GiphyDataSourceImpl implements GiphyDataSource {
 
                 if (response.raw().networkResponse() != null) {
                     Log.v("[GiphyDataSource]", "Response from network" );
+                    Log.v("[GiphyDataSource]", "network code - " + response.raw().networkResponse().code());
                 }
                 if(response.isSuccessful()){
                     List<GiphyData> giphyData = response.body().getList();
@@ -93,6 +94,7 @@ public class GiphyDataSourceImpl implements GiphyDataSource {
 
                 if (response.raw().networkResponse() != null) {
                     Log.v("[GiphyDataSource]", "Response from network" );
+                    Log.v("[GiphyDataSource]", "network code - " + response.raw().networkResponse().code());
                 }
                 if(response.isSuccessful()){
                     List<GiphyData> giphyData = response.body().getList();

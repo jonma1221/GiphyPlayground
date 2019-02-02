@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.giphyplayground.R;
 import com.giphyplayground.data.source.remote.GiphyDataSourceImpl;
+import com.giphyplayground.data.util.StorePreferences;
 import com.giphyplayground.ui.giphydetail.FragmentGiphyDetail;
 import com.giphyplayground.ui.giphylist.adapter.GiphyListAdapter;
 import com.giphyplayground.data.model.GiphyData;
@@ -23,6 +24,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.giphyplayground.data.util.StorePreferences.KEY.QUERY_KEY;
 
 public class FragmentGiphyList extends Fragment implements GiphyListContract.View{
     @BindView(R.id.fragment_giphy_list_searchView)
@@ -79,9 +82,13 @@ public class FragmentGiphyList extends Fragment implements GiphyListContract.Vie
         });
         giphyListRecyclerView.setAdapter(giphyListAdapter);
 
-        mPresenter = new GiphyListPresenter(GiphyDataSourceImpl.getInstance(), this);
-        mPresenter.getTrendingGiphyList(0);
+        setUpPresenter();
 
+        // grab the latest query from user
+        if(StorePreferences.getData(getContext(), QUERY_KEY) != null)
+            searchView.setQuery(StorePreferences.getData(getContext(), QUERY_KEY), false);
+
+        // search
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -106,6 +113,11 @@ public class FragmentGiphyList extends Fragment implements GiphyListContract.Vie
             }
         });
         return v;
+    }
+
+    private void setUpPresenter() {
+        mPresenter = new GiphyListPresenter(GiphyDataSourceImpl.getInstance(), this);
+        mPresenter.getTrendingGiphyList(0);
     }
 
     @Override

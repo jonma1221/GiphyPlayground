@@ -24,7 +24,7 @@ public class GiphyListPresenterTest {
     @Mock
     private GiphyListContract.View mGiphyListView;
     @Captor
-    private ArgumentCaptor<GiphyDataSource.GetGiphyListCallback> mTrendingCallbackCaptor;
+    private ArgumentCaptor<GiphyDataSource.GetGiphyListCallback<GiphyData>> mTrendingCallbackCaptor;
 
     @Before
     public void setUp() throws Exception {
@@ -47,19 +47,6 @@ public class GiphyListPresenterTest {
         verify(giphyListDataSource).getGiphyList(Mockito.anyInt(), mTrendingCallbackCaptor.capture());
         // trigger the reply on callbackCaptor.getValue().
         mTrendingCallbackCaptor.getValue().onGiphyLoaded(Mockito.<GiphyData>anyList());
-
-//        GiphyGetService giphyGetService = mock(GiphyGetService.class);
-//        final Call<GiphyTrendingResponse> onResponseCall = mock(Call.class);
-//        when(giphyGetService.getTrending(Mockito.anyInt(), Mockito.anyInt())).thenReturn(onResponseCall);
-//        doAnswer(new Answer() {
-//            @Override
-//            public Object answer(InvocationOnMock invocation) throws Throwable {
-//                Callback<GiphyTrendingResponse> callback = invocation.getArgument(0);
-//                callback.onResponse(onResponseCall, Response.success(new GiphyTrendingResponse()));
-//                return null;
-//            }
-//        }).when(onResponseCall).enqueue(any(Callback.class));
-
         verify(mGiphyListView).onTrendingLoaded(Mockito.<GiphyData>anyList());
     }
 

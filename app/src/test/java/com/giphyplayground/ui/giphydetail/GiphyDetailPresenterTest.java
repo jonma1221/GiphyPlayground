@@ -25,7 +25,7 @@ public class GiphyDetailPresenterTest {
     @Mock
     GiphyDataSource dataSource;
     @Captor
-    ArgumentCaptor<GiphyDataSource.GetGiphyCallback> getGiphyCallbackCaptor;
+    ArgumentCaptor<GiphyDataSource.GetGiphyCallback<GiphyData>> getGiphyCallbackCaptor;
 
 
     @Before

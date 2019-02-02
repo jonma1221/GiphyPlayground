@@ -2,6 +2,7 @@ package com.giphyplayground;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,9 +25,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
         FragmentGiphyList fragmentGiphyList = FragmentGiphyList.newInstance();
+        startFragment(R.id.fragment_container, fragmentGiphyList);
+    }
+
+    public void startFragment(int resId, Fragment f){
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction()
-                .add(R.id.fragment_container, fragmentGiphyList)
+                .add(resId, f)
                 .addToBackStack(null)
                 .commit();
     }
