@@ -5,11 +5,11 @@
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ImageView
-        android:id="@+id/fragment_giphy_detail"
+
+    <com.giphyplayground.ui.giphydetail.GiphyDetailCustomView
+        android:id="@+id/giphy_detail_custom_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/grey_200"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent">
+    </com.giphyplayground.ui.giphydetail.GiphyDetailCustomView>
+
 </android.support.constraint.ConstraintLayout>

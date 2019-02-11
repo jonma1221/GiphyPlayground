@@ -22,8 +22,8 @@ public class FragmentGiphyDetail extends Fragment implements GiphyDetailContract
     @NonNull
     private static final String GIPHY_ID = "com.giphyplayground.ui.giphydetail.GIPHY_ID";
 
-    @BindView(R.id.fragment_giphy_detail)
-    ImageView giphyDetail;
+    @BindView(R.id.giphy_detail_custom_view)
+    GiphyDetailCustomView giphyDetailCustomView;
 
     GiphyDetailContract.Presenter presenter;
 
@@ -47,9 +47,7 @@ public class FragmentGiphyDetail extends Fragment implements GiphyDetailContract
 
     @Override
     public void onGiphyRetrieved(GiphyData giphyData) {
-        Glide.with(getContext())
-                .load(giphyData.getGiphyImages().getDownsized().getUrl())
-                .apply(new RequestOptions().placeholder(R.color.grey_200))
-                .into(giphyDetail);
+        giphyDetailCustomView.setData(giphyData);
+        giphyDetailCustomView.setImage(giphyData.getGiphyImages().getDownsized().getUrl());
     }
 }
